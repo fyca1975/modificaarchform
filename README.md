@@ -1,4 +1,4 @@
-# Proyecto Swaps - Automatización de Procesamiento de Archivos
+# Proyecto  - Automatización de Procesamiento de Archivos
 
 ## Objetivo
 
@@ -35,8 +35,4 @@ cd code
 python main.py
 ```
 
-## Ejemplo Archivos de Entrada
 
-- `input/flujos_swap_gbo_20250603.csv`
-- `input/COL_ESTIM_FLOWS_03062025.dat`
-- `input/Informe_R5_GBO_250603.csv`
