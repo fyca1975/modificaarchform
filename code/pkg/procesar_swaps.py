@@ -51,7 +51,11 @@ def procesar_swaps(input_dir, output_dir):
 
         # === Nuevo paso: Filtrar registros según fecha_cobro ===
         if 'fecha_cobro' in df_flujo.columns:
-            df_flujo['fecha_cobro'] = pd.to_datetime(df_flujo['fecha_cobro'], errors='coerce').dt.date
+            df_flujo['fecha_cobro'] = pd.to_datetime(
+                df_flujo['fecha_cobro'], 
+                format='%d/%m/%Y', 
+                errors='coerce'
+            ).dt.date
             filas_antes = df_flujo.shape[0]
             df_flujo = df_flujo[df_flujo['fecha_cobro'] > fecha_base].copy()
             filas_despues = df_flujo.shape[0]
