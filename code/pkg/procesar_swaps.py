@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import logging
+from datetime import datetime
 
 def extraer_fecha(nombre):
     """Extrae la fecha del nombre de archivo y la retorna en (aaaa, mm, dd)"""
@@ -37,6 +38,7 @@ def procesar_swaps(input_dir, output_dir):
             return None, None
 
         fecha_str = f"{a1}{m1}{d1}"
+        fecha_base = datetime.strptime(fecha_str, "%Y%m%d").date()
 
         # Leer archivos
         df_flujo = pd.read_csv(os.path.join(input_dir, flujo_csv), sep=';', encoding='latin1')
@@ -47,9 +49,20 @@ def procesar_swaps(input_dir, output_dir):
             logging.error("Algún archivo está vacío.")
             return None, None
 
+        # === Nuevo paso: Filtrar registros según fecha_cobro ===
+        if 'fecha_cobro' in df_flujo.columns:
+            df_flujo['fecha_cobro'] = pd.to_datetime(df_flujo['fecha_cobro'], errors='coerce').dt.date
+            filas_antes = df_flujo.shape[0]
+            df_flujo = df_flujo[df_flujo['fecha_cobro'] > fecha_base].copy()
+            filas_despues = df_flujo.shape[0]
+            logging.info(f"Filtrado por fecha: se eliminaron {filas_antes - filas_despues} filas con fecha_cobro <= {fecha_base}")
+        else:
+            logging.warning("No se encontró la columna 'fecha_cobro' en el archivo de flujos. No se aplicó filtrado por fecha.")
+
         # Procesar y actualizar
         for i, row in df_dat.iterrows():
-            matches = (df_flujo['cod_emp'] == str(row['M_CONTRACT_'])) &                       (df_flujo['fecha_cobro'] == str(row['M_DATE']))
+            matches = (df_flujo['cod_emp'] == str(row['M_CONTRACT_'])) & \
+                      (df_flujo['fecha_cobro'] == str(row['M_DATE']))
             idxs = df_flujo.index[matches]
             for idx in idxs:
                 # Reglas de negocio
