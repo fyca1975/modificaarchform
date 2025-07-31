@@ -56,11 +56,11 @@ def procesar_swaps(input_dir, output_dir):
                 if row['M_DISCFLOWC'] > 0:
                     df_flujo.at[idx, 'der_vp'] = float(row['M_DISCFLOWC'])
                 elif row['M_DISCFLOWC'] < 0:
-                    df_flujo.at[idx, 'obl_vp'] = abs(float(row['M_FLOW_COL']))
+                    df_flujo.at[idx, 'obl_vp'] = abs(float(row['M_DISCFLOWC']))
                 if row['M_FLOW_COL'] > 0:
                     df_flujo.at[idx, 'der_intereses'] = float(row['M_FLOW_COL'])
                 elif row['M_FLOW_COL'] < 0:
-                    df_flujo.at[idx, 'obl_intereses'] = abs(float(row['M_DISCFLOWC']))
+                    df_flujo.at[idx, 'obl_intereses'] = abs(float(row['M_FLOW_COL']))
 
         # Guardar modificado
         os.makedirs(output_dir, exist_ok=True)

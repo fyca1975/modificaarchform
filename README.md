@@ -12,7 +12,6 @@ proyecto_swaps/
 ├── logs/           # Logs de ejecución
 ├── code/
 │   ├── main.py
-│   ├── .env
 │   └── pkg/
 │       ├── procesar_swaps.py
 │       ├── actualizar_informe.py
