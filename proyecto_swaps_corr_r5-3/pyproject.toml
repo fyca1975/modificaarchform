@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proyecto_swaps_corr_r5"
+version = "0.1.0"
+description = "Procesamiento de swaps R5 con configuración .env centralizada y logging unificado."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Equipo Swaps", email = "dev@example.com" }]
+dependencies = [
+  "python-dotenv>=1.0",
+  "pandas>=2.0,<3.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = [""]
+include = ["code*"]
+exclude = ["tests*"]
